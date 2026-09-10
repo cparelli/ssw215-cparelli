@@ -2,3 +2,5 @@
 My work for SSW 215, Fall 2026
 Name: Catherine Parelli
 I would like to create a website this semester.
+## Labs
+- Lab 2 - connected this repository to my laptop
