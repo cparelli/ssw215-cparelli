@@ -18,6 +18,10 @@
 - Social link: GitHub (https://github.com/cparelli) MUST open in a new tab
 (target="_blank").
 
+- All text on the page MUST use Georgia as the font, with a serif fallback.
+
+
+
 ## 4. Acceptance Checklist
 - [x] Valid semantic HTML5: the page uses <header>, <main>, and <footer>.
 - [x] The avatar image has width, height, and alt attributes.
