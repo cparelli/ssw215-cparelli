@@ -7,32 +7,45 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <header class="hero">
-    <img src="./assets/avatar.png" width="200" height="200" alt="Portrait of Catherine Parelli">
-    <div class="hero-content">
-      <h1>Catherine Parelli</h1>
-      <p class="subtitle">Biomedical engineering student interested in research and technology</p>
-      <p>I am a third-year biomedical engineering student at Stevens Institute of Technology with a minor in software engineering. I plan to use my engineering degree to pursue a career in neuroimaging.</p>
-      <a class="button" href="#projects">See my projects</a>
+  <header class="site-header">
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#projects">Projects</a>
+      <a href="https://github.com/cparelli" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </nav>
+
+    <div class="hero">
+      <img src="./assets/avatar.png" alt="Portrait of Catherine Parelli">
+      <div class="hero-content">
+        <h1>Catherine Parelli</h1>
+        <p class="subtitle">Biomedical engineering student interested in research and technology</p>
+        <p>I am a third-year biomedical engineering student at Stevens Institute of Technology with a minor in software engineering. I plan to use my engineering degree to pursue a career in neuroimaging.</p>
+        <a class="button" href="#projects">See my projects</a>
+      </div>
     </div>
   </header>
 
   <main>
-    <section id="projects">
+    <section class="intro-section">
+      <h2>About</h2>
+    </section>
+
+    <section id="projects" class="projects-section">
       <h2>Projects</h2>
-      <article>
-        <h3>Laser Speckle Imaging</h3>
-        <p>I used MATLAB to collect and analyze images while studying changes in blood flow.</p>
-      </article>
-      <article>
-        <h3>VR Myoelectric Control</h3>
-        <p>I helped process muscle signal data for a virtual reality research project.</p>
-      </article>
+      <div class="project-grid">
+        <article class="card">
+          <h3>Laser Speckle Imaging</h3>
+          <p>I used MATLAB to collect and analyze images while studying changes in blood flow.</p>
+        </article>
+        <article class="card">
+          <h3>VR Myoelectric Control</h3>
+          <p>I helped process muscle signal data for a virtual reality research project.</p>
+        </article>
+      </div>
     </section>
   </main>
 
-  <footer>
-    <a href="https://github.com/cparelli" target="_blank" rel="noopener">GitHub</a>
+  <footer class="site-footer">
+    <a href="https://github.com/cparelli" target="_blank" rel="noopener noreferrer">GitHub</a>
   </footer>
 </body>
 </html>
