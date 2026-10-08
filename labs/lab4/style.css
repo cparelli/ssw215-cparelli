@@ -132,7 +132,7 @@ h3 {
 .project-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 3rem; /* hand edited by CP */
 }
 
 .card {
@@ -140,6 +140,11 @@ h3 {
   padding: 1.25rem;
   background: #f9fbfd;
   border-radius: 0.5rem;
+}
+
+/* hand-edited by CP */
+.featured {
+  background: #fff7e6;
 }
 
 .card p {
