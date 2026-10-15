@@ -219,8 +219,12 @@ h3 {
   margin: 0.75rem 0 0;
 }
 
+.hidden {
+  display: none;
+}
+
 .is-hidden {
-  display: none; /* hand-edited by CP to match the class name used in app.js *
+  display: none;
 }
 
 .card {
@@ -240,6 +244,17 @@ h3 {
 
 .site-footer {
   padding: 1.5rem 1rem 2.5rem;
+}
+
+.badge {
+  display: inline-block;
+  background-color: #5487ff;
+  color: #f8f8f8;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.75rem;
+  margin-left: 0.5rem;
 }
 
 .footer-section h2 {
