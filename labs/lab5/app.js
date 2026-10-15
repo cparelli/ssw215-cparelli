@@ -11,12 +11,12 @@ if (!projectCount) {
 }
 
 function filterProjects() {
-  const query = filterInput.value.trim().toLowerCase();
+  const query = filterInput.value.trim().toLowerCase(); // hand-edited by CP
   let visibleCount = 0;
 
   projectCards.forEach((card) => {
-    const matches = card.textContent.toLowerCase().includes(query);
-    card.classList.toggle("hidden", !matches);
+    const matches = card.textContent.toLowerCase().includes(query); // hand-edited by CP
+    card.classList.toggle("is-hidden", !matches); // hand-edited by CP
     if (matches) {
       visibleCount += 1;
     }

@@ -219,8 +219,8 @@ h3 {
   margin: 0.75rem 0 0;
 }
 
-.hidden {
-  display: none;
+.is-hidden {
+  display: none; /* hand-edited by CP to match the class name used in app.js *
 }
 
 .card {
