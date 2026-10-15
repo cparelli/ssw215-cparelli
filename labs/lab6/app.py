@@ -23,6 +23,22 @@ projects_db = [
         ),
         "likes": 0,
     },
+    {
+        "id": 3, # hand-edited by CP 
+        "title": "3D Printed Bone Scaffold",
+        "description": (
+            "I designed a scaffold in SolidWorks and tested its mechanical performance using FEA analysis."
+        ),
+        "likes": 0,
+    },
+    {
+        "id": 4, # hand-edited by CP 
+        "title": "EEG Brainwave Analysis",
+        "description": (
+            "I analyzed EEG data to study brain activity during different cognitive tasks."
+        ),
+        "likes": 0,
+    }
 ]
 
 
