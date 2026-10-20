@@ -76,7 +76,8 @@ function displayArtworks() {
   }
 
   const artworks = getArtworks();
-  const selectedCategory = categoryFilter.value;
+  const selectedCategory = 
+    document.querySelector(".category-tab.active").dataset.category; 
 
   publicGallery.innerHTML = "";
 
@@ -95,7 +96,16 @@ function displayArtworks() {
 }
 
 if (categoryFilter) {
-  categoryFilter.addEventListener("change", displayArtworks);
+  document.querySelectorAll(".category-tab").forEach((tab) => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".category-tab").forEach((button) => {
+      button.classList.remove("active");
+    });
+
+    tab.classList.add("active");
+    displayArtworks();
+  });
+});
 }
 
 

@@ -101,9 +101,12 @@ h2 {
 /* gallery controls */
 .gallery-controls {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 1rem;
-  margin: 2rem 0 1rem;
+  width: 100%;
+  margin: 0 0 2.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .gallery-controls label {
@@ -130,9 +133,9 @@ h2 {
 
 .artwork-card img {
   width: 100%;
-  height: 280px;
-  object-fit: cover;
-  background: #eee9e3;
+  height: 350px;
+  object-fit: contain;
+  background: transparent;
 }
 
 .artwork-card h3 {
@@ -299,7 +302,7 @@ button:disabled {
 
   .gallery-controls {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
   }
 
   h2 {
@@ -348,3 +351,42 @@ button:disabled {
 }
 
 
+/* gallery category tabs */
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+.category-tab {
+  display: inline-block;
+  width: auto;
+  flex: 0 0 auto;
+  background: transparent;
+  color: #82776f;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 0.5rem 0;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.category-tab:hover {
+  background: transparent;
+  color: #211b18;
+}
+
+.category-tab.active {
+  background: transparent;
+  color: #211b18;
+  border-bottom-color: #51413a;
+}
