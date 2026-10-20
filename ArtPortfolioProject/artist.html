@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art Portfolio | Artist</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <h1>Artist Portfolio</h1>
+    <p>Add and manage your artwork</p>
+
+    <nav class="main-nav">
+      <a href="index.html">View Gallery</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="artist-section">
+      <h2>Add Artwork</h2>
+      <p>Enter information about your artwork below.</p>
+
+      <form id="artwork-form">
+
+        <label for="artwork-image">Artwork Image:</label>
+        <input type="file" id="artwork-image" accept="image/*">
+
+        <img id="image-preview" alt="Artwork preview" hidden>
+
+        <label for="artwork-title">Title:</label>
+        <input type="text" id="artwork-title" required>
+
+        <label for="artwork-medium">Medium:</label>
+        <input type="text" id="artwork-medium" required>
+
+        <label for="artwork-year">Year:</label>
+        <input type="number" id="artwork-year" min="1900" max="2100">
+
+        <label for="artwork-category">Category:</label>
+        <select id="artwork-category" required>
+          <option value="">Select a category</option>
+          <option value="drawing">Drawing</option>
+          <option value="oil">Oil Painting</option>
+          <option value="acrylic">Acrylic Painting</option>
+        </select>
+
+        <label for="artwork-notes">Notes:</label>
+        <textarea id="artwork-notes" rows="4"></textarea>
+
+        <button type="button" id="generate-description">
+          Generate Sample Description
+        </button>
+
+        <label for="artwork-description">Description:</label>
+        <textarea id="artwork-description" rows="4"></textarea>
+
+        <button type="submit" id="save-artwork">
+          Save Artwork
+        </button>
+
+      </form>
+    </section>
+
+    <section class="manage-section">
+      <h2>Manage Artwork</h2>
+      <p>Edit or delete artwork from your gallery.</p>
+
+      <div id="manage-gallery" class="artwork-grid">
+        <!-- saved artwork will appear here -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Art Portfolio</p>
+  </footer>
+</body>
+
+</html>

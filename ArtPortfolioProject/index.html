@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <h1>Art Portfolio</h1>
+    <p>A collection of original artwork</p>
+
+    <nav class="main-nav">
+      <a href="index.html">Gallery</a>
+      <a href="mailto:artist@example.com">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="gallery-section">
+      <h2>Artwork Gallery</h2>
+      <p>Browse artwork by category.</p>
+
+      <div class="gallery-controls">
+        <label for="category-filter">Filter by category:</label>
+
+        <select id="category-filter">
+          <option value="all">All Artwork</option>
+          <option value="drawing">Drawings</option>
+          <option value="oil">Oil Paintings</option>
+          <option value="acrylic">Acrylic Paintings</option>
+        </select>
+      </div>
+
+      <p id="artwork-count">Showing 0 artworks</p>
+
+      <div id="artwork-gallery" class="artwork-grid">
+        <!-- artwork cards will appear here -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Art Portfolio</p>
+  </footer>
+</body>
+
+</html>

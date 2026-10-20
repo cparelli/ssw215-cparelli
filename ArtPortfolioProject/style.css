@@ -1,0 +1,350 @@
+
+/* general page styling */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --page-bg: #faf8f5;
+  --panel-bg: #ffffff;
+  --text-color: #302b28;
+  --heading-color: #211b18;
+  --accent-color: #94796e;
+  --accent-hover: #765c52;
+  --border-color: #e5dfd9;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--page-bg);
+  color: var(--text-color);
+  font-family: Georgia, serif;
+  line-height: 1.6;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* header and navigation */
+.site-header {
+  background: var(--panel-bg);
+  padding: 2rem 5%;
+  border-bottom: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.site-header h1 {
+  color: var(--heading-color);
+  font-size: 2.8rem;
+  font-weight: normal;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.site-header p {
+  margin: 0.25rem 0 1.5rem;
+  font-family: Arial, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.main-nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.main-nav a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid transparent;
+}
+
+.main-nav a:hover {
+  border-bottom-color: var(--accent-color);
+}
+
+/* main layout */
+main {
+  width: min(100%, 1100px);
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+h2 {
+  color: var(--heading-color);
+  font-size: 2rem;
+  font-weight: normal;
+  margin-top: 0;
+}
+
+.gallery-section,
+.artist-section,
+.manage-section {
+  margin-bottom: 4rem;
+}
+
+/* gallery controls */
+.gallery-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0 1rem;
+}
+
+.gallery-controls label {
+  font-size: 0.9rem;
+  font-weight: normal;
+}
+
+#artwork-count {
+  color: #77716c;
+  font-size: 0.85rem;
+}
+
+/* artwork gallery */
+.artwork-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2.5rem 1.5rem;
+  margin-top: 2rem;
+}
+
+.artwork-card {
+  background: transparent;
+}
+
+.artwork-card img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  background: #eee9e3;
+}
+
+.artwork-card h3 {
+  font-size: 1.1rem;
+  font-weight: normal;
+  margin: 0.8rem 0 0.2rem;
+}
+
+.artwork-card p {
+  margin: 0.25rem 0;
+  color: #716b66;
+  font-size: 0.9rem;
+}
+
+/* artist form */
+.artist-section {
+  max-width: 750px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#artwork-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+#artwork-form label {
+  font-family: Arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: normal;
+  letter-spacing: 0.5px;
+  margin-top: 0.5rem;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  color: var(--text-color);
+  font: inherit;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 1px solid var(--accent-color);
+}
+
+input[type="file"] {
+  cursor: pointer;
+}
+
+textarea {
+  resize: vertical;
+}
+
+#image-preview {
+  max-width: 300px;
+  max-height: 300px;
+  object-fit: contain;
+  margin: 1rem 0;
+}
+
+#image-preview[hidden] {
+  display: none;
+}
+
+/* buttons */
+button {
+  padding: 0.9rem 1.2rem;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: var(--accent-hover);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#save-artwork {
+  background: #51413a;
+  margin-top: 0.5rem;
+}
+
+#save-artwork:hover {
+  background: #352923;
+}
+
+/* manage artwork section */
+.manage-section {
+  border-top: 1px solid var(--border-color);
+  padding-top: 3rem;
+}
+
+.manage-section .artwork-card {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  padding: 1rem;
+}
+
+/* footer */
+.site-footer {
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #77716c;
+  font-size: 0.8rem;
+}
+
+/* tablet screens */
+@media (max-width: 850px) {
+  .artwork-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .site-header h1 {
+    font-size: 2.3rem;
+  }
+}
+
+/* phone screens */
+@media (max-width: 550px) {
+  main {
+    padding: 2rem 1rem;
+  }
+
+  .site-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .site-header h1 {
+    font-size: 2rem;
+  }
+
+  .main-nav {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .artwork-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .artwork-card img {
+    height: auto;
+  }
+
+  .gallery-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  h2 {
+    font-size: 1.7rem;
+  }
+}
+
+
+/* edit and delete buttons */
+
+#manage-gallery .artwork-card button {
+  display: inline-block;
+  width: auto;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  padding: 9px 15px;
+  margin: 12px 10px 0 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* edit button */
+
+#manage-gallery .artwork-card button:first-of-type {
+  background: #51413a;
+  color: white;
+  border: 1px solid #51413a;
+}
+
+#manage-gallery .artwork-card button:first-of-type:hover {
+  background: #352923;
+}
+
+/* delete button */
+
+#manage-gallery .artwork-card button:last-of-type {
+  background: transparent;
+  color: #51413a;
+  border: 1px solid #bdb5ae;
+}
+
+#manage-gallery .artwork-card button:last-of-type:hover {
+  background: #eee8e2;
+}
+
+

@@ -1,0 +1,25 @@
+
+{
+  "artworks": [
+    {
+      "id": 1,
+      "title": "Untitled",
+      "medium": "Ink on Paper",
+      "year": "",
+      "category": "drawing",
+      "notes": "Approximately 7 x 10 inches",
+      "description": "An ink drawing on paper by Paulina Olivares.",
+      "image": "images/artwork1.png"
+    },
+    {
+      "id": 2,
+      "title": "The Woman with the Red Dress",
+      "medium": "Acrylic on Canvas",
+      "year": "",
+      "category": "acrylic",
+      "notes": "11 x 14 inches",
+      "description": "This painting explores how women's physical pain is often ignored or disregarded. Through chaotic patterns and contrasting colors, the woman in the red dress becomes both lost and found within the composition.",
+      "image": "images/artwork2.png"
+    }
+  ]
+}
