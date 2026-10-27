@@ -1,54 +1,32 @@
+import json
 from pathlib import Path
 
 from flask import Flask, jsonify, render_template, send_from_directory
 
 app = Flask(__name__)
 
-projects_db = [
-    {
-        "id": 1,
-        "title": "Laser Speckle Imaging",
-        "description": (
-            "I used MATLAB to collect and analyze images while studying "
-            "changes in blood flow."
-        ),
-        "likes": 0,
-    },
-    {
-        "id": 2,
-        "title": "VR Myoelectric Control",
-        "description": (
-            "I helped process muscle signal data for a virtual reality "
-            "research project."
-        ),
-        "likes": 0,
-    },
-    {
-        "id": 3, # hand-edited by CP 
-        "title": "3D Printed Bone Scaffold",
-        "description": (
-            "I designed a scaffold in SolidWorks and tested its mechanical performance using FEA analysis."
-        ),
-        "likes": 0,
-    },
-    {
-        "id": 4, # hand-edited by CP 
-        "title": "EEG Brainwave Analysis",
-        "description": (
-            "I analyzed EEG data to study brain activity during different cognitive tasks."
-        ),
-        "likes": 0,
-    }
-]
+PROJECTS_FILE = Path(__file__).with_name("projects.json")
+
+
+def load_projects():
+    with PROJECTS_FILE.open(encoding="utf-8") as projects_file:
+        return json.load(projects_file)
+
+
+def save_projects(projects_db):
+    with PROJECTS_FILE.open("w", encoding="utf-8") as projects_file:
+        json.dump(projects_db, projects_file, indent=2)
 
 
 @app.route("/")
 def index():
+    projects_db = load_projects()
     return render_template("index.html", projects=projects_db)
 
 
 @app.route("/api/projects/<int:project_id>/upvote", methods=["POST"])
 def upvote_project(project_id):
+    projects_db = load_projects()
     project = next(
         (project for project in projects_db if project["id"] == project_id),
         None,
@@ -57,6 +35,7 @@ def upvote_project(project_id):
         return jsonify({"error": "Project not found"}), 404
 
     project["likes"] += 1
+    save_projects(projects_db)
     return jsonify({"project_id": project_id, "likes": project["likes"]})
 
 
