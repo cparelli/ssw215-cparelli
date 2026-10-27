@@ -1,26 +1,26 @@
 [
-    {
-        "id": 1,
-        "title": "Laser Speckle Imaging",
-        "description": "I used MATLAB to collect and analyze images while studying changes in blood flow.",
-        "likes": 0
-    },
-    {
-        "id": 2,
-        "title": "VR Myoelectric Control",
-        "description": "I helped process muscle signal data for a virtual reality research project.",
-        "likes": 0
-    },
-    {
-        "id": 3,
-        "title": "3D Printed Bone Scaffold",
-        "description": "I designed a scaffold in SolidWorks and tested its mechanical performance using FEA analysis.",
-        "likes": 0
-    },
-    {
-        "id": 4, 
-        "title": "EEG Brainwave Analysis",
-        "description": "I analyzed EEG data to study brain activity during different cognitive tasks.",
-        "likes": 0
-    }
+  {
+    "id": 1,
+    "title": "Laser Speckle Imaging",
+    "description": "I used MATLAB to collect and analyze images while studying changes in blood flow.",
+    "likes": 3
+  },
+  {
+    "id": 2,
+    "title": "VR Myoelectric Control",
+    "description": "I helped process muscle signal data for a virtual reality research project.",
+    "likes": 0
+  },
+  {
+    "id": 3,
+    "title": "3D Printed Bone Scaffold",
+    "description": "I designed a scaffold in SolidWorks and tested its mechanical performance using FEA analysis.",
+    "likes": 0
+  },
+  {
+    "id": 4,
+    "title": "EEG Brainwave Analysis",
+    "description": "I analyzed EEG data to study brain activity during different cognitive tasks.",
+    "likes": 0
+  }
 ]
