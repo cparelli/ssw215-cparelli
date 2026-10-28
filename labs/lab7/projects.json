@@ -22,5 +22,11 @@
     "title": "EEG Brainwave Analysis",
     "description": "I analyzed EEG data to study brain activity during different cognitive tasks.",
     "likes": 0
+  },
+  {
+    "id": 5,
+    "title": "Test Project",
+    "description": "",
+    "likes": 0
   }
 ]
