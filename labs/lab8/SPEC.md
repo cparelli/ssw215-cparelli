@@ -113,10 +113,10 @@ number on that card, with no page reload.
 - Adding a project and upvoting a project MUST both work exactly as they did in Lab 7, writing to the database instead of to a file.
 
 ## 4. Acceptance Checklist
-- [ ] Starting the server creates instance/portfolio.db, and the page shows the projects that were in projects_seed.json.
-- [ ] Restarting the server does not duplicate any project.
-- [ ] Opening http://127.0.0.1:5000/api/projects in the browser shows the projects as JSON.
-- [ ] Upvoting changes the count, and the new count is still there after a restart.
+- [x ] Starting the server creates instance/portfolio.db, and the page shows the projects that were in projects_seed.json.
+- [ x] Restarting the server does not duplicate any project.
+- [x ] Opening http://127.0.0.1:5000/api/projects in the browser shows the projects as JSON.
+- [x ] Upvoting changes the count, and the new count is still there after a restart.
 - [ ] Adding a project whose title already exists does not create a second copy, and the server does not crash.
 - [ ] instance/ and *.db are ignored by Git and do not appear in git status.
 
