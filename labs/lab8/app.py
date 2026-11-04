@@ -2,26 +2,69 @@ import json
 from pathlib import Path
 
 from flask import Flask, jsonify, render_template, request, send_from_directory
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///portfolio.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-PROJECTS_FILE = Path(__file__).with_name("projects.json")
-
-
-def load_projects():
-    with PROJECTS_FILE.open(encoding="utf-8") as projects_file:
-        return json.load(projects_file)
+db = SQLAlchemy(app)
+SEED_FILE = Path(__file__).with_name("projects_seed.json")
 
 
-def save_projects(projects_db):
-    with PROJECTS_FILE.open("w", encoding="utf-8") as projects_file:
-        json.dump(projects_db, projects_file, indent=2)
+class Project(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(120), nullable=False, unique=True)
+    description = db.Column(db.Text, nullable=False, default="")
+    likes = db.Column(db.Integer, nullable=False, default=0)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "likes": self.likes,
+        }
+
+
+def init_seed_data():
+    if db.session.query(Project.id).first() is not None:
+        return
+
+    with SEED_FILE.open(encoding="utf-8") as seed_file:
+        seed_projects = json.load(seed_file)
+
+    for seed_project in seed_projects:
+        db.session.add(
+            Project(
+                id=seed_project["id"],
+                title=seed_project["title"],
+                description=seed_project["description"],
+                likes=seed_project["likes"],
+            )
+        )
+
+    try:
+        db.session.commit()
+    except SQLAlchemyError:
+        db.session.rollback()
+        raise
 
 
 @app.route("/")
 def index():
-    projects_db = load_projects()
-    return render_template("index.html", projects=projects_db)
+    projects = db.session.query(Project).order_by(Project.id).all()
+    return render_template(
+        "index.html",
+        projects=[project.to_dict() for project in projects],
+    )
+
+
+@app.route("/api/projects", methods=["GET"])
+def get_projects():
+    projects = db.session.query(Project).order_by(Project.id).all()
+    return jsonify([project.to_dict() for project in projects])
 
 
 @app.route("/api/projects", methods=["POST"])
@@ -34,36 +77,44 @@ def create_project():
     if not isinstance(title, str) or not title.strip():
         return jsonify({"error": "Title is required"}), 400
 
-    projects_db = load_projects()
-    project = {
-        "id": max((item["id"] for item in projects_db), default=0) + 1,
-        "title": title.strip(),
-        "description": "",
-        "likes": 0,
-    }
-    projects_db.append(project)
-    save_projects(projects_db)
-    return jsonify(project), 201
+    project = Project(title=title.strip(), description="", likes=0)
+    db.session.add(project)
+    try:
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({"error": "A project with this title already exists."}), 400
+    except SQLAlchemyError:
+        db.session.rollback()
+        return jsonify({"error": "Database error while saving project."}), 400
+
+    return jsonify(project.to_dict()), 201
 
 
 @app.route("/api/projects/<int:project_id>/upvote", methods=["POST"])
 def upvote_project(project_id):
-    projects_db = load_projects()
-    project = next(
-        (project for project in projects_db if project["id"] == project_id),
-        None,
-    )
+    project = db.session.get(Project, project_id)
     if project is None:
         return jsonify({"error": "Project not found"}), 404
 
-    project["likes"] += 1
-    save_projects(projects_db)
-    return jsonify({"project_id": project_id, "likes": project["likes"]})
+    project.likes += 1
+    try:
+        db.session.commit()
+    except SQLAlchemyError:
+        db.session.rollback()
+        return jsonify({"error": "Could not save upvote."}), 400
+
+    return jsonify({"project_id": project_id, "likes": project.likes})
 
 
 @app.route("/assets/<path:filename>")
 def assets(filename):
     return send_from_directory(Path(app.static_folder) / "assets", filename)
+
+
+with app.app_context():
+    db.create_all()
+    init_seed_data()
 
 
 if __name__ == "__main__":
