@@ -119,6 +119,9 @@ number on that card, with no page reload.
 
 - A project created with the Add project form MUST be attached to the same seeded author.
 
+- - Every project card MUST display the author's name. <!-- written by CP -->
+- Every project returned by /api/projects MUST include the author's name. <!-- written by CP -->
+
 ## 4. Acceptance Checklist
 - [x ] Starting the server creates instance/portfolio.db, and the page shows the projects that were in projects_seed.json.
 - [ x] Restarting the server does not duplicate any project.
@@ -129,6 +132,9 @@ number on that card, with no page reload.
 
 - [ ] instance/portfolio.db contains two tables.
 - [ ] Deleting instance/portfolio.db and restarting rebuilds both tables with the seed data.
+
+- [ ] Every project card shows the author's name. <!-- written by CP -->
+- [ ] Opening /api/projects shows the author's name for each project. <!-- written by CP -->
 
 ## 5. Audit Protocol
 - Inspect the generated code line by line with `git diff --staged` before committing.
