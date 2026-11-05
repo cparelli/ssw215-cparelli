@@ -11,13 +11,25 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 SEED_FILE = Path(__file__).with_name("projects_seed.json")
+SEEDED_AUTHOR_NAME = "Catherine Parelli"
+
+
+class Author(db.Model):
+    __tablename__ = "authors"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), nullable=False)
+    projects = db.relationship("Project", backref="author")
 
 
 class Project(db.Model):
+    __tablename__ = "projects"
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), nullable=False, unique=True)
     description = db.Column(db.Text, nullable=False, default="")
     likes = db.Column(db.Integer, nullable=False, default=0)
+    author_id = db.Column(db.Integer, db.ForeignKey("authors.id"), nullable=False)
 
     def to_dict(self):
         return {
@@ -25,6 +37,8 @@ class Project(db.Model):
             "title": self.title,
             "description": self.description,
             "likes": self.likes,
+            "author_id": self.author_id,
+            "author_name": self.author.name,
         }
 
 
@@ -35,6 +49,8 @@ def init_seed_data():
     with SEED_FILE.open(encoding="utf-8") as seed_file:
         seed_projects = json.load(seed_file)
 
+    author = Author(name=SEEDED_AUTHOR_NAME)
+    db.session.add(author)
     for seed_project in seed_projects:
         db.session.add(
             Project(
@@ -42,6 +58,7 @@ def init_seed_data():
                 title=seed_project["title"],
                 description=seed_project["description"],
                 likes=seed_project["likes"],
+                author=author,
             )
         )
 
@@ -77,7 +94,16 @@ def create_project():
     if not isinstance(title, str) or not title.strip():
         return jsonify({"error": "Title is required"}), 400
 
-    project = Project(title=title.strip(), description="", likes=0)
+    author = db.session.query(Author).filter_by(name=SEEDED_AUTHOR_NAME).first()
+    if author is None:
+        return jsonify({"error": "Project author is not configured."}), 400
+
+    project = Project(
+        title=title.strip(),
+        description="",
+        likes=0,
+        author=author,
+    )
     db.session.add(project)
     try:
         db.session.commit()

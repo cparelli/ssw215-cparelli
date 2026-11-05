@@ -130,11 +130,11 @@ number on that card, with no page reload.
 - [x ] Adding a project whose title already exists does not create a second copy, and the server does not crash.
 - [x ] instance/ and *.db are ignored by Git and do not appear in git status.
 
-- [ ] instance/portfolio.db contains two tables.
-- [ ] Deleting instance/portfolio.db and restarting rebuilds both tables with the seed data.
+- [x ] instance/portfolio.db contains two tables.
+- [ x] Deleting instance/portfolio.db and restarting rebuilds both tables with the seed data.
 
-- [ ] Every project card shows the author's name. <!-- written by CP -->
-- [ ] Opening /api/projects shows the author's name for each project. <!-- written by CP -->
+- [x ] Every project card shows the author's name. <!-- written by CP -->
+- [x ] Opening /api/projects shows the author's name for each project. <!-- written by CP -->
 
 ## 5. Audit Protocol
 - Inspect the generated code line by line with `git diff --staged` before committing.

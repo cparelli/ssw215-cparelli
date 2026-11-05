@@ -50,6 +50,7 @@
         {% for project in projects %}
         <article class="card" data-project-id="{{ project.id }}">
           <h3>{{ project.title }}</h3>
+          <p class="project-author">By {{ project.author_name }}</p>
           <p>{{ project.description }}</p>
           <p class="like-details">
             <span class="like-count">{{ project.likes }}</span> likes
