@@ -61,6 +61,10 @@ function createProjectCard(project) {
   const title = document.createElement("h3");
   title.textContent = project.title;
 
+  const author = document.createElement("p");
+  author.className = "project-author";
+  author.textContent = `By ${project.author_name}`;
+
   const description = document.createElement("p");
   description.textContent = project.description;
 
@@ -83,7 +87,7 @@ function createProjectCard(project) {
   upvoteButton.type = "button";
   upvoteButton.textContent = "Upvote";
 
-  card.append(title, description, likeDetails, upvoteButton);
+  card.append(title, author, description, likeDetails, upvoteButton);
   return card;
 }
 
@@ -151,7 +155,8 @@ addProjectButton.addEventListener("click", async () => {
 
     const project = await response.json();
     if (!Number.isInteger(project.id) || typeof project.title !== "string"
-      || typeof project.description !== "string" || !Number.isInteger(project.likes)) {
+      || typeof project.description !== "string" || !Number.isInteger(project.likes)
+      || typeof project.author_name !== "string") {
       throw new Error("Create project response did not contain a valid project.");
     }
 
