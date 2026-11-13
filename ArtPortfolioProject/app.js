@@ -1,15 +1,29 @@
 
-/* artwork storage */
+/* artwork storage - Flask and SQLite */
 
-const storageKey = "artworks";
-const starterKey = "starterArtworksLoaded";
+let artworks = [];
 
 function getArtworks() {
-  return JSON.parse(localStorage.getItem(storageKey) || "[]");
+  return artworks;
 }
 
-function saveArtworks(artworks) {
-  localStorage.setItem(storageKey, JSON.stringify(artworks));
+function loadArtworks() {
+  fetch("/api/artworks")
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error("Could not load artworks");
+      }
+      return response.json();
+    })
+    .then(function (data) {
+      artworks = data;
+      displayArtworks();
+      displayManageArtwork();
+    })
+    .catch(function (error) {
+      console.error("Error loading artworks:", error);
+      alert("Could not load artwork from the database.");
+    });
 }
 
 
@@ -75,15 +89,14 @@ function displayArtworks() {
     return;
   }
 
-  const artworks = getArtworks();
-  const selectedCategory = 
-    document.querySelector(".category-tab.active").dataset.category; 
+  const selectedTab = document.querySelector(".category-tab.active");
+  const selectedCategory = selectedTab ? selectedTab.dataset.category : "all";
 
   publicGallery.innerHTML = "";
 
   let visibleCount = 0;
 
-  artworks.forEach(function (artwork) {
+  getArtworks().forEach(function (artwork) {
     if (selectedCategory === "all" || artwork.category === selectedCategory) {
       const card = createArtworkCard(artwork);
 
@@ -96,16 +109,16 @@ function displayArtworks() {
 }
 
 if (categoryFilter) {
-  document.querySelectorAll(".category-tab").forEach((tab) => {
-  tab.addEventListener("click", () => {
-    document.querySelectorAll(".category-tab").forEach((button) => {
-      button.classList.remove("active");
-    });
+  document.querySelectorAll(".category-tab").forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      document.querySelectorAll(".category-tab").forEach(function (button) {
+        button.classList.remove("active");
+      });
 
-    tab.classList.add("active");
-    displayArtworks();
+      tab.classList.add("active");
+      displayArtworks();
+    });
   });
-});
 }
 
 
@@ -201,52 +214,61 @@ if (artworkForm) {
     }
 
     function finishSaving(imageData) {
-      const artworks = getArtworks();
+      let existingArtwork = null;
 
       if (editingArtworkId !== null) {
-        const artwork = artworks.find(function (item) {
+        existingArtwork = getArtworks().find(function (item) {
           return item.id === editingArtworkId;
         });
 
-        if (!artwork) {
+        if (!existingArtwork) {
           alert("Artwork not found.");
           return;
         }
+      }
 
-        artwork.title = title;
-        artwork.medium = medium;
-        artwork.year = year;
-        artwork.category = category;
-        artwork.notes = notes;
-        artwork.description = description;
+      const artworkData = {
+        title: title,
+        medium: medium,
+        year: year,
+        category: category,
+        notes: notes,
+        description: description,
+        image: imageData || (existingArtwork ? existingArtwork.image : "")
+      };
 
-        if (imageData) {
-          artwork.image = imageData;
-        }
+      let url = "/api/artworks";
+      let method = "POST";
 
-      } else {
-        artworks.push({
-          id: Date.now(),
-          title: title,
-          medium: medium,
-          year: year,
-          category: category,
-          notes: notes,
-          description: description,
-          image: imageData
+      if (editingArtworkId !== null) {
+        url = `/api/artworks/${editingArtworkId}`;
+        method = "PUT";
+      }
+
+      fetch(url, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(artworkData)
+      })
+        .then(function (response) {
+          if (!response.ok) {
+            return response.json().then(function (errorData) {
+              throw new Error(errorData.error || "Could not save artwork");
+            });
+          }
+
+          return response.json();
+        })
+        .then(function () {
+          resetArtworkForm();
+          loadArtworks();
+        })
+        .catch(function (error) {
+          console.error("Error saving artwork:", error);
+          alert(error.message);
         });
-      }
-
-      try {
-        saveArtworks(artworks);
-      } catch (error) {
-        alert("Could not save artwork. Try a smaller image.");
-        return;
-      }
-
-      resetArtworkForm();
-      displayManageArtwork();
-      displayArtworks();
     }
 
     if (file) {
@@ -275,11 +297,9 @@ function displayManageArtwork() {
     return;
   }
 
-  const artworks = getArtworks();
-
   manageGallery.innerHTML = "";
 
-  artworks.forEach(function (artwork) {
+  getArtworks().forEach(function (artwork) {
     const card = createArtworkCard(artwork);
 
     const editButton = document.createElement("button");
@@ -317,23 +337,24 @@ function displayManageArtwork() {
         return;
       }
 
-      const updatedArtworks = getArtworks().filter(function (item) {
-        return item.id !== artwork.id;
-      });
+      fetch(`/api/artworks/${artwork.id}`, {
+        method: "DELETE"
+      })
+        .then(function (response) {
+          if (!response.ok) {
+            throw new Error("Could not delete artwork");
+          }
 
-      try {
-        saveArtworks(updatedArtworks);
-      } catch (error) {
-        alert("Could not delete artwork.");
-        return;
-      }
+          if (editingArtworkId === artwork.id) {
+            resetArtworkForm();
+          }
 
-      if (editingArtworkId === artwork.id) {
-        resetArtworkForm();
-      }
-
-      displayManageArtwork();
-      displayArtworks();
+          loadArtworks();
+        })
+        .catch(function (error) {
+          console.error("Error deleting artwork:", error);
+          alert("Could not delete artwork.");
+        });
     });
 
     card.appendChild(editButton);
@@ -344,46 +365,6 @@ function displayManageArtwork() {
 }
 
 
-/* load starter artwork only once */
+/* load artwork from SQLite */
 
-function loadStarterArtwork() {
-  if (localStorage.getItem(starterKey) === "true") {
-    displayArtworks();
-    displayManageArtwork();
-    return;
-  }
-
-  fetch("mock_data.json")
-    .then(function (response) {
-      if (!response.ok) {
-        throw new Error("Could not load mock_data.json");
-      }
-
-      return response.json();
-    })
-    .then(function (data) {
-      const artworks = getArtworks();
-
-      data.artworks.forEach(function (starterArtwork) {
-        const exists = artworks.some(function (artwork) {
-          return artwork.id === starterArtwork.id;
-        });
-
-        if (!exists) {
-          artworks.push(starterArtwork);
-        }
-      });
-
-      saveArtworks(artworks);
-      localStorage.setItem(starterKey, "true");
-
-      displayArtworks();
-      displayManageArtwork();
-    })
-    .catch(function (error) {
-      console.error("Error loading starter artwork:", error);
-      alert("Could not load starter artwork. Check the local server.");
-    });
-}
-
-loadStarterArtwork();
+loadArtworks();

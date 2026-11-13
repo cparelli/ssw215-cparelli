@@ -2,7 +2,7 @@
 # Art Portfolio Website
 
 ## Project Overview
-- Art portfolio website where an individual artist can upload and organize their artwork into a virtual galler
+- Art portfolio website where an individual artist can upload and organize their artwork into a virtual gallery
 - The artist will be able to enter information about each piece, generate a short description based on their notes, and save it to the gallery
 - visitors can browse the artwork by category and contact the artist through email, but cannot make changes to the gallery 
 
