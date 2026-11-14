@@ -13,6 +13,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 
+# Artwork database table
 class Artwork(db.Model):
     __tablename__ = "artworks"
 
@@ -38,6 +39,7 @@ class Artwork(db.Model):
         }
 
 
+# Load starter artwork into the database
 def init_seed_data():
     if db.session.query(Artwork.id).first() is not None:
         return
@@ -48,56 +50,61 @@ def init_seed_data():
         seed_data = json.load(file)
 
     for artwork in seed_data["artworks"]:
-        db.session.add(Artwork(
-            id=artwork["id"],
-            title=artwork["title"],
-            image=artwork["image"],
-            category=artwork["category"],
-            medium=artwork["medium"],
-            year=artwork["year"],
-            notes=artwork["notes"],
-            description=artwork["description"]
-        ))
+        db.session.add(
+            Artwork(
+                id=artwork["id"],
+                title=artwork["title"],
+                image=artwork["image"],
+                category=artwork["category"],
+                medium=artwork["medium"],
+                year=artwork["year"],
+                notes=artwork["notes"],
+                description=artwork["description"]
+            )
+        )
 
     db.session.commit()
 
 
+# Frontend website routes
 @app.route("/")
 def index():
-    return send_from_directory("..", "index.html")
+    return send_from_directory("../frontend", "index.html"), 200
 
 
 @app.route("/index.html")
 def gallery_page():
-    return send_from_directory("..", "index.html")
+    return send_from_directory("../frontend", "index.html"), 200
 
 
 @app.route("/artist.html")
 def artist_page():
-    return send_from_directory("..", "artist.html")
+    return send_from_directory("../frontend", "artist.html"), 200
 
 
 @app.route("/style.css")
 def styles():
-    return send_from_directory("..", "style.css")
+    return send_from_directory("../frontend", "style.css"), 200
 
 
 @app.route("/app.js")
 def javascript():
-    return send_from_directory("..", "app.js")
+    return send_from_directory("../frontend", "app.js"), 200
 
 
 @app.route("/images/<path:filename>")
 def images(filename):
-    return send_from_directory("../images", filename)
+    return send_from_directory("../frontend/images", filename), 200
 
 
+# GET - Retrieve all artwork
 @app.route("/api/artworks", methods=["GET"])
 def get_artworks():
     artworks = db.session.query(Artwork).order_by(Artwork.id).all()
     return jsonify([artwork.to_dict() for artwork in artworks]), 200
 
 
+# POST - Add new artwork
 @app.route("/api/artworks", methods=["POST"])
 def create_artwork():
     data = request.get_json(silent=True)
@@ -149,11 +156,12 @@ def create_artwork():
         db.session.commit()
     except SQLAlchemyError:
         db.session.rollback()
-        return jsonify({"error": "Could not save artwork"}), 400
+        return jsonify({"error": "Could not save artwork"}), 500
 
     return jsonify(artwork.to_dict()), 201
 
 
+# PUT - Update existing artwork
 @app.route("/api/artworks/<int:artwork_id>", methods=["PUT"])
 def update_artwork(artwork_id):
     artwork = db.session.get(Artwork, artwork_id)
@@ -195,11 +203,12 @@ def update_artwork(artwork_id):
         db.session.commit()
     except SQLAlchemyError:
         db.session.rollback()
-        return jsonify({"error": "Could not update artwork"}), 400
+        return jsonify({"error": "Could not update artwork"}), 500
 
     return jsonify(artwork.to_dict()), 200
 
 
+# DELETE - Remove artwork
 @app.route("/api/artworks/<int:artwork_id>", methods=["DELETE"])
 def delete_artwork(artwork_id):
     artwork = db.session.get(Artwork, artwork_id)
@@ -213,14 +222,19 @@ def delete_artwork(artwork_id):
         db.session.commit()
     except SQLAlchemyError:
         db.session.rollback()
-        return jsonify({"error": "Could not delete artwork"}), 400
+        return jsonify({"error": "Could not delete artwork"}), 500
 
-    return jsonify({"message": "Artwork deleted"}), 200
+    return "", 204
 
 
 with app.app_context():
+    database_file = Path(app.instance_path) / "portfolio.db"
+    first_run = not database_file.exists()
+
     db.create_all()
-    init_seed_data()
+
+    if first_run:
+        init_seed_data()
 
 
 if __name__ == "__main__":
