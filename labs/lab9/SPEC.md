@@ -150,11 +150,11 @@ number on that card, with no page reload.
 - [x ] Every project card shows the author's name. <!-- written by CP -->
 - [x ] Opening /api/projects shows the author's name for each project. <!-- written by CP -->
 
-- [ ] .env is ignored by Git and never appears in git status.
-- [ ] Pasting a paragraph of notes and pressing Smart create adds a project with a title, a summary and a technologies list.
-- [ ] /api/projects shows the new project with all three fields filled in.
-- [ ] Notes shorter than 20 characters come back as 400, and nothing is sent to the provider.
-- [ ] Deleting instance/portfolio.db and restarting rebuilds the table with the new columns.
+- [ x] .env is ignored by Git and never appears in git status.
+- [x ] Pasting a paragraph of notes and pressing Smart create adds a project with a title, a summary and a technologies list.
+- [x ] /api/projects shows the new project with all three fields filled in.
+- [ x] Notes shorter than 20 characters come back as 400, and nothing is sent to the provider.
+- [x ] Deleting instance/portfolio.db and restarting rebuilds the table with the new columns.
 
 ## 5. Audit Protocol
 - Inspect the generated code line by line with `git diff --staged` before committing.
