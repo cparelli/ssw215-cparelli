@@ -129,6 +129,15 @@ def refine_github_session(session_id, feedback):
     return draft
 
 
+def refine_github_session_blind(session_id, feedback):
+    if session_id not in github_sessions:
+        raise DraftNotFoundError("Draft session not found.")
+
+    return _request_github_draft([
+        {"role": "user", "content": feedback}
+    ])
+
+
 def get_github_draft(session_id):
     session = github_sessions.get(session_id)
     if session is None:
