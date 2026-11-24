@@ -180,7 +180,8 @@ number on that card, with no page reload.
 - [ ] Sending feedback changes the draft on the page and leaves /api/projects unchanged.
 - [ ] Approve and save adds the project to /api/projects.
 - [ ] A repository name that does not exist comes back as 404 and nothing is sent to the provider.
-- [ ] Deleting instance/portfolio.db and restarting rebuilds the table with the difficulty column.
+- [ ] Deleting instance/portfolio.db and restarting rebuilds the table with the 
+difficulty column.
 
 ## 5. Audit Protocol
 - Inspect the generated code line by line with `git diff --staged` before committing.
